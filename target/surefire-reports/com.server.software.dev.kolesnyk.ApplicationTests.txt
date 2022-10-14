@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.server.software.dev.kolesnyk.ApplicationTests
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 9.676 s - in com.server.software.dev.kolesnyk.ApplicationTests
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 22.974 s - in com.server.software.dev.kolesnyk.ApplicationTests
