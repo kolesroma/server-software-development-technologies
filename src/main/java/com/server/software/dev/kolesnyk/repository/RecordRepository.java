@@ -1,11 +1,13 @@
 package com.server.software.dev.kolesnyk.repository;
 
 import com.server.software.dev.kolesnyk.entity.Record;
+import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+@Repository
 public class RecordRepository {
     private final Map<Integer, Record> records = new HashMap<>();
 
