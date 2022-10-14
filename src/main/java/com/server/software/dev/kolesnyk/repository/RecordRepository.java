@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Repository
 public class RecordRepository {
@@ -21,6 +22,18 @@ public class RecordRepository {
 
     public Collection<Record> getAll() {
         return records.values();
+    }
+
+    public Collection<Record> getByUserId(int userId) {
+        return records.values().stream()
+                .filter(record -> record.getUserId() == userId)
+                .collect(Collectors.toList());
+    }
+
+    public Collection<Record> getByCategoryId(int categoryId) {
+        return records.values().stream()
+                .filter(record -> record.getCategoryId() == categoryId)
+                .collect(Collectors.toList());
     }
 
     public void update(Record record, int id) {

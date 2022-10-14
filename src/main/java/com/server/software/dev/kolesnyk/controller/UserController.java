@@ -29,7 +29,7 @@ public class UserController {
     }
 
     @PutMapping("/{userId}")
-    public void updateUser(User user, @PathVariable int userId) {
+    public void updateUser(@RequestBody User user, @PathVariable int userId) {
         userRepository.update(user, userId);
     }
 
