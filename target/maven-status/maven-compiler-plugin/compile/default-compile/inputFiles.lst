@@ -1,8 +1,0 @@
-/home/roman/IdeaProjects/server-software-development-technologies/src/main/java/com/server/software/dev/kolesnyk/controller/UserController.java
-/home/roman/IdeaProjects/server-software-development-technologies/src/main/java/com/server/software/dev/kolesnyk/entity/User.java
-/home/roman/IdeaProjects/server-software-development-technologies/src/main/java/com/server/software/dev/kolesnyk/entity/Category.java
-/home/roman/IdeaProjects/server-software-development-technologies/src/main/java/com/server/software/dev/kolesnyk/repository/UserRepository.java
-/home/roman/IdeaProjects/server-software-development-technologies/src/main/java/com/server/software/dev/kolesnyk/repository/CategoryRepository.java
-/home/roman/IdeaProjects/server-software-development-technologies/src/main/java/com/server/software/dev/kolesnyk/entity/Record.java
-/home/roman/IdeaProjects/server-software-development-technologies/src/main/java/com/server/software/dev/kolesnyk/Application.java
-/home/roman/IdeaProjects/server-software-development-technologies/src/main/java/com/server/software/dev/kolesnyk/repository/RecordRepository.java

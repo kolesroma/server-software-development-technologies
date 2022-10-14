@@ -1,8 +1,0 @@
-com/server/software/dev/kolesnyk/repository/RecordRepository.class
-com/server/software/dev/kolesnyk/entity/Record.class
-com/server/software/dev/kolesnyk/entity/User.class
-com/server/software/dev/kolesnyk/repository/UserRepository.class
-com/server/software/dev/kolesnyk/repository/CategoryRepository.class
-com/server/software/dev/kolesnyk/controller/UserController.class
-com/server/software/dev/kolesnyk/entity/Category.class
-com/server/software/dev/kolesnyk/Application.class
