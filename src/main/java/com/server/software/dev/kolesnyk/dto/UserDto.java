@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -15,6 +17,8 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Accessors(chain = true)
 public class UserDto implements Serializable {
+    @NotBlank
     private String name;
+    @NotNull
     private Integer balance;
 }
