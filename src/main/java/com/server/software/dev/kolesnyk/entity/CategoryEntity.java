@@ -1,9 +1,21 @@
 package com.server.software.dev.kolesnyk.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
 
 @Data
-public class Category {
-    private int id;
+@Entity
+@Table(name = "category")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class CategoryEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
     private String name;
 }
