@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 /**
@@ -15,5 +16,6 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Accessors(chain = true)
 public class CategoryDto implements Serializable {
+    @NotBlank
     private String name;
 }
