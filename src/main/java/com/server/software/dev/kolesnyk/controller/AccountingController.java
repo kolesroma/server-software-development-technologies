@@ -5,7 +5,6 @@ import com.server.software.dev.kolesnyk.dto.AccountingDto;
 import com.server.software.dev.kolesnyk.entity.AccountingEntity;
 import com.server.software.dev.kolesnyk.service.AccountingService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
