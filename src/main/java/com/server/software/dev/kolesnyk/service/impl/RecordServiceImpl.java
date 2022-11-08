@@ -50,7 +50,7 @@ public class RecordServiceImpl implements RecordService {
                 .balance(user.getAccounting().getBalance() - record.getOutgo())
                 .build();
         if (validator.validate(userDto).size() > 0) {
-            throw new ValidationException("cannot apply balance < 0 or empty name");
+            throw new ValidationException("cannot apply balance < 0 for user");
         }
         recordRepository.save(record);
         userService.updateUser(userDto, user.getId());
@@ -83,7 +83,7 @@ public class RecordServiceImpl implements RecordService {
         record.setCreatedAt(Optional.ofNullable(recordDto.getCreatedAt()).orElse(LocalDateTime.now()));
         record.setOutgo(recordDto.getOutgo());
         if (validator.validate(userDto).size() > 0) {
-            throw new ValidationException("cannot apply balance < 0 or empty name");
+            throw new ValidationException("cannot apply balance < 0 for user");
         }
         recordRepository.save(record);
         userService.updateUser(userDto, user.getId());
