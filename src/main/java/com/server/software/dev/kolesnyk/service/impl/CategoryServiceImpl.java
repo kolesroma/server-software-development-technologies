@@ -2,7 +2,7 @@ package com.server.software.dev.kolesnyk.service.impl;
 
 import com.server.software.dev.kolesnyk.dto.CategoryDto;
 import com.server.software.dev.kolesnyk.entity.CategoryEntity;
-import com.server.software.dev.kolesnyk.exception.EntityNotFound;
+import com.server.software.dev.kolesnyk.exception.CategoryNotFound;
 import com.server.software.dev.kolesnyk.repository.CategoryRepository;
 import com.server.software.dev.kolesnyk.service.CategoryService;
 import org.springframework.data.domain.PageRequest;
@@ -40,7 +40,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Transactional
     public void updateCategory(CategoryDto categoryDto, Integer id) {
         CategoryEntity category = categoryRepository.findById(id)
-                .orElseThrow(EntityNotFound::new);
+                .orElseThrow(CategoryNotFound::new);
         category.setName(categoryDto.getName());
         categoryRepository.save(category);
     }
@@ -49,7 +49,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Transactional
     public void deleteCategory(Integer id) {
         if (!categoryRepository.existsById(id)) {
-            throw new EntityNotFound();
+            throw new CategoryNotFound();
         }
         categoryRepository.deleteById(id);
     }

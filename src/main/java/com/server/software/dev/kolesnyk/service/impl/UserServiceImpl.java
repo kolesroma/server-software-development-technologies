@@ -2,7 +2,7 @@ package com.server.software.dev.kolesnyk.service.impl;
 
 import com.server.software.dev.kolesnyk.dto.UserDto;
 import com.server.software.dev.kolesnyk.entity.UserEntity;
-import com.server.software.dev.kolesnyk.exception.EntityNotFound;
+import com.server.software.dev.kolesnyk.exception.UserNotFound;
 import com.server.software.dev.kolesnyk.repository.UserRepository;
 import com.server.software.dev.kolesnyk.service.AccountingService;
 import com.server.software.dev.kolesnyk.service.UserService;
@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void updateUser(UserDto userDto, Integer id) {
         UserEntity user = userRepository.findById(id)
-                .orElseThrow(EntityNotFound::new);
+                .orElseThrow(UserNotFound::new);
         user.setName(userDto.getName());
         user.getAccounting().setBalance(userDto.getBalance());
         userRepository.save(user);
@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void deleteUser(Integer id) {
         UserEntity user = userRepository.findById(id)
-                .orElseThrow(EntityNotFound::new);
+                .orElseThrow(UserNotFound::new);
         accountingService.deleteAccounting(user.getAccounting().getId());
     }
 }

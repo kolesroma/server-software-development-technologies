@@ -2,7 +2,7 @@ package com.server.software.dev.kolesnyk.service.impl;
 
 import com.server.software.dev.kolesnyk.dto.AccountingDto;
 import com.server.software.dev.kolesnyk.entity.AccountingEntity;
-import com.server.software.dev.kolesnyk.exception.EntityNotFound;
+import com.server.software.dev.kolesnyk.exception.AccountingNotFound;
 import com.server.software.dev.kolesnyk.repository.AccountingRepository;
 import com.server.software.dev.kolesnyk.service.AccountingService;
 import org.springframework.data.domain.PageRequest;
@@ -40,7 +40,7 @@ public class AccountingServiceImpl implements AccountingService {
     @Transactional
     public void updateAccounting(AccountingDto accountingDto, Integer id) {
         AccountingEntity accounting = accountingRepository.findById(id)
-                .orElseThrow(EntityNotFound::new);
+                .orElseThrow(AccountingNotFound::new);
         accounting.setBalance(accountingDto.getBalance());
         accountingRepository.save(accounting);
     }
@@ -49,7 +49,7 @@ public class AccountingServiceImpl implements AccountingService {
     @Transactional
     public void deleteAccounting(Integer id) {
         if (!accountingRepository.existsById(id)) {
-            throw new EntityNotFound();
+            throw new AccountingNotFound();
         }
         accountingRepository.deleteById(id);
     }

@@ -4,12 +4,13 @@ import com.server.software.dev.kolesnyk.dto.RecordDto;
 import com.server.software.dev.kolesnyk.dto.UserDto;
 import com.server.software.dev.kolesnyk.entity.RecordEntity;
 import com.server.software.dev.kolesnyk.entity.UserEntity;
-import com.server.software.dev.kolesnyk.exception.EntityNotFound;
+import com.server.software.dev.kolesnyk.exception.CategoryNotFound;
+import com.server.software.dev.kolesnyk.exception.RecordNotFound;
+import com.server.software.dev.kolesnyk.exception.UserNotFound;
 import com.server.software.dev.kolesnyk.repository.RecordRepository;
 import com.server.software.dev.kolesnyk.service.CategoryService;
 import com.server.software.dev.kolesnyk.service.RecordService;
 import com.server.software.dev.kolesnyk.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,10 +39,10 @@ public class RecordServiceImpl implements RecordService {
     @Transactional
     public void createRecord(RecordDto recordDto) {
         UserEntity user = userService.getUser(recordDto.getUserId())
-                .orElseThrow(EntityNotFound::new);
+                .orElseThrow(UserNotFound::new);
         RecordEntity record = RecordEntity.builder()
                 .user(user)
-                .category(categoryService.getCategory(recordDto.getCategoryId()).orElseThrow(EntityNotFound::new))
+                .category(categoryService.getCategory(recordDto.getCategoryId()).orElseThrow(CategoryNotFound::new))
                 .createdAt(Optional.ofNullable(recordDto.getCreatedAt()).orElse(LocalDateTime.now()))
                 .outgo(recordDto.getOutgo())
                 .build();
@@ -71,15 +72,15 @@ public class RecordServiceImpl implements RecordService {
     @Transactional
     public void updateRecord(RecordDto recordDto, Integer id) {
         RecordEntity record = recordRepository.findById(id)
-                .orElseThrow(EntityNotFound::new);
+                .orElseThrow(RecordNotFound::new);
         UserEntity user = userService.getUser(recordDto.getUserId())
-                .orElseThrow(EntityNotFound::new);
+                .orElseThrow(UserNotFound::new);
         UserDto userDto = UserDto.builder()
                 .name(user.getName())
                 .balance(user.getAccounting().getBalance() + record.getOutgo() - recordDto.getOutgo())
                 .build();
         record.setUser(user);
-        record.setCategory(categoryService.getCategory(recordDto.getCategoryId()).orElseThrow(EntityNotFound::new));
+        record.setCategory(categoryService.getCategory(recordDto.getCategoryId()).orElseThrow(CategoryNotFound::new));
         record.setCreatedAt(Optional.ofNullable(recordDto.getCreatedAt()).orElse(LocalDateTime.now()));
         record.setOutgo(recordDto.getOutgo());
         if (validator.validate(userDto).size() > 0) {
@@ -93,7 +94,7 @@ public class RecordServiceImpl implements RecordService {
     @Transactional
     public void deleteRecord(Integer id) {
         if (!recordRepository.existsById(id)) {
-            throw new EntityNotFound();
+            throw new RecordNotFound();
         }
         recordRepository.deleteById(id);
     }
