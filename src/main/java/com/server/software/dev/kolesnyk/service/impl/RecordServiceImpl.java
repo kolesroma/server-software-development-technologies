@@ -28,7 +28,8 @@ public class RecordServiceImpl implements RecordService {
     private final CategoryService categoryService;
     private final Validator validator;
 
-    public RecordServiceImpl(RecordRepository recordRepository, UserService userService, CategoryService categoryService, Validator validator) {
+    public RecordServiceImpl(RecordRepository recordRepository, UserService userService,
+                             CategoryService categoryService, Validator validator) {
         this.recordRepository = recordRepository;
         this.userService = userService;
         this.categoryService = categoryService;
@@ -40,21 +41,29 @@ public class RecordServiceImpl implements RecordService {
     public void createRecord(RecordDto recordDto) {
         UserEntity user = userService.getUser(recordDto.getUserId())
                 .orElseThrow(UserNotFound::new);
-        RecordEntity record = RecordEntity.builder()
-                .user(user)
-                .category(categoryService.getCategory(recordDto.getCategoryId()).orElseThrow(CategoryNotFound::new))
-                .createdAt(Optional.ofNullable(recordDto.getCreatedAt()).orElse(LocalDateTime.now()))
-                .outgo(recordDto.getOutgo())
-                .build();
-        UserDto userDto = UserDto.builder()
-                .name(user.getName())
-                .balance(user.getAccounting().getBalance() - record.getOutgo())
-                .build();
+        RecordEntity record = getRecord(recordDto, user);
+        UserDto userDto = prepareUserDto(user, record);
         if (validator.validate(userDto).size() > 0) {
             throw new ValidationException("cannot apply balance < 0 for user");
         }
         recordRepository.save(record);
         userService.updateUser(userDto, user.getId());
+    }
+
+    private UserDto prepareUserDto(UserEntity user, RecordEntity record) {
+        return UserDto.builder()
+                .name(user.getName())
+                .balance(user.getAccounting().getBalance() - record.getOutgo())
+                .build();
+    }
+
+    private RecordEntity getRecord(RecordDto recordDto, UserEntity user) {
+        return RecordEntity.builder()
+                .user(user)
+                .category(categoryService.getCategory(recordDto.getCategoryId()).orElseThrow(CategoryNotFound::new))
+                .createdAt(Optional.ofNullable(recordDto.getCreatedAt()).orElse(LocalDateTime.now()))
+                .outgo(recordDto.getOutgo())
+                .build();
     }
 
     @Override
@@ -75,19 +84,27 @@ public class RecordServiceImpl implements RecordService {
                 .orElseThrow(RecordNotFound::new);
         UserEntity user = userService.getUser(recordDto.getUserId())
                 .orElseThrow(UserNotFound::new);
-        UserDto userDto = UserDto.builder()
-                .name(user.getName())
-                .balance(user.getAccounting().getBalance() + record.getOutgo() - recordDto.getOutgo())
-                .build();
-        record.setUser(user);
-        record.setCategory(categoryService.getCategory(recordDto.getCategoryId()).orElseThrow(CategoryNotFound::new));
-        record.setCreatedAt(Optional.ofNullable(recordDto.getCreatedAt()).orElse(LocalDateTime.now()));
-        record.setOutgo(recordDto.getOutgo());
+        UserDto userDto = prepareUserDtoUpdate(recordDto, record, user);
+        prepareRecord(recordDto, record, user);
         if (validator.validate(userDto).size() > 0) {
             throw new ValidationException("cannot apply balance < 0 for user");
         }
         recordRepository.save(record);
         userService.updateUser(userDto, user.getId());
+    }
+
+    private UserDto prepareUserDtoUpdate(RecordDto recordDto, RecordEntity record, UserEntity user) {
+        return UserDto.builder()
+                .name(user.getName())
+                .balance(user.getAccounting().getBalance() + record.getOutgo() - recordDto.getOutgo())
+                .build();
+    }
+
+    private void prepareRecord(RecordDto recordDto, RecordEntity record, UserEntity user) {
+        record.setUser(user);
+        record.setCategory(categoryService.getCategory(recordDto.getCategoryId()).orElseThrow(CategoryNotFound::new));
+        record.setCreatedAt(Optional.ofNullable(recordDto.getCreatedAt()).orElse(LocalDateTime.now()));
+        record.setOutgo(recordDto.getOutgo());
     }
 
     @Override

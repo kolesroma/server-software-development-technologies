@@ -1,9 +1,7 @@
 package com.server.software.dev.kolesnyk.controller.global;
 
 import com.server.software.dev.kolesnyk.exception.EntityNotFound;
-import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -29,7 +27,7 @@ public class ErrorHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Map<String, String> dtoChecker(MethodArgumentNotValidException e) {
         String message = e.getBindingResult().getFieldErrors().stream()
-                .map(FieldError::getDefaultMessage)
+                .map(fe -> fe.getField() + " : " + fe.getDefaultMessage())
                 .collect(Collectors.joining(", "));
         return Map.of("code", "400",
                 "message", message);
