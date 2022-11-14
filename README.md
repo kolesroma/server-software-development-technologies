@@ -76,8 +76,13 @@ Required:
 * Apache Maven 
 * Java 11
 
-`mvn package`
+You have to provide your datasource validated by 3 migrations in dir db.migration (required not empty database)
 
-`java -jar target/demo-0.0.1-SNAPSHOT.jar`
+`mvn -Dspring.datasource.url=${YOUR_REMOTE_DS} package`
 
+`java -Dspring.datasource.url=${YOUR_REMOTE_DS} -jar target/demo-0.0.1-SNAPSHOT.jar`
 
+example of `${YOUR_REMOTE_DS}` (of course now working):
+`jdbc:mysql://us-cdbr-east-06.cleardb.net/user=roma&password=qwerty`
+
+or set the datasource in application.properties manually
