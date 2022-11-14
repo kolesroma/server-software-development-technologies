@@ -1,1 +1,1 @@
-web: java $JAVA_OPTS -Dserver.port=$PORT -jar target/*.jar
+web: java $JAVA_OPTS -Dserver.port=$PORT -Dspring.datasource.password=${DATABASE_PASS} -jar target/*.jar
